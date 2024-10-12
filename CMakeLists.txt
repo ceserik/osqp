@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.18)
 project(osqp)
 
+#set(OSQP_EMBEDDED_MODE 2)
 include(GNUInstallDirs)
 include(CMakeDependentOption)
 include(CMakePackageConfigHelpers)
@@ -413,7 +414,8 @@ message( STATUS "Build shared library: " ${OSQP_BUILD_SHARED_LIB} )
 if(OSQP_BUILD_SHARED_LIB)
   add_library(osqp SHARED
               $<TARGET_OBJECTS:OSQPLIB>
-              "${CMAKE_CURRENT_SOURCE_DIR}/src/osqp_api.c")
+              "${CMAKE_CURRENT_SOURCE_DIR}/src/osqp_api.c"
+          examples/distribTester.c)
   if(OSQP_ALGEBRA_BUILTIN)
     # Transitive dependency on OBJECT library does not work. See https://gitlab.kitware.com/cmake/cmake/-/issues/18682
     target_sources(osqp PRIVATE $<TARGET_OBJECTS:qdldlobject>)
@@ -560,3 +562,10 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME AND OSQP_BUILD_UNITTESTS)
 
   add_subdirectory(tests)
 endif()
+
+add_executable(lpDistrib ${PROJECT_SOURCE_DIR}/examples/lpDistrib.c)
+target_link_libraries(lpDistrib osqpstatic ${osqplib_link_libs})
+add_executable(distribTester2 examples/distribTester2.c examples/distribTester2.h
+        examples/distribFunction.c
+        examples/distribFunction.h)
+target_link_libraries(distribTester2 osqpstatic ${osqplib_link_libs})

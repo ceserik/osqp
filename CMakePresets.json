@@ -8,12 +8,26 @@
   "configurePresets": [
     {
       "name": "builtin",
+      "generator": "MinGW Makefiles",
       "displayName": "Builtin linear algebra (Release)",
       "description": "Builtin linear algebra brackend",
       "binaryDir": "${sourceDir}/build.builtin",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "OSQP_ALGEBRA_BACKEND": "builtin"
+      }
+    },
+    {
+      "name": "builtindva",
+      "displayName": "Builtin linear algebra (Release)",
+      "description": "Builtin linear algebra brackend",
+      "binaryDir": "${sourceDir}/build.builtindva",
+      "generator": "MinGW Makefiles",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OSQP_ALGEBRA_BACKEND": "builtin",
+        "OSQP_USE_FLOAT": "1",
+        "OSQP_USE_LONG": "OFF"
       }
     },
     {
@@ -41,6 +55,7 @@
       "displayName": "Builtin linear algebra (Debug + ASAN)",
       "description": "Builtin linear algebra brackend",
       "binaryDir": "${sourceDir}/build.debug.builtin",
+      "generator": "MinGW Makefiles",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "OSQP_ALGEBRA_BACKEND": "builtin",
